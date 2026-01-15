@@ -11,71 +11,54 @@
             box-sizing: border-box;
         }
 
+        @media print {
+            body {
+                width: 297mm;
+                height: 420mm;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #0a1929 0%, #1a2332 50%, #2a3f5f 100%);
-            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
             padding: 0;
             min-height: 100vh;
         }
 
         .page-header {
             background: linear-gradient(135deg, #c94b1f 0%, #e8651f 100%);
-            padding: 25px 20px;
+            padding: 30px 40px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .page-header h1 {
-            font-size: 22px;
+            font-size: 28px;
             margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #ffffff;
+            font-weight: 700;
         }
 
         .page-header .subtitle {
-            font-size: 13px;
+            font-size: 14px;
+            color: #ffffff;
+            font-weight: 400;
             opacity: 0.95;
-            font-weight: 300;
         }
 
         .container {
-            max-width: 100%;
-            padding: 30px 15px;
-        }
-
-        .info-box {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 166, 77, 0.3);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .info-box h2 {
-            color: #ffd700;
-            font-size: 18px;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #ffd700;
-            padding-bottom: 8px;
-        }
-
-        .info-box p {
-            font-size: 14px;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 8px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 40px 20px;
         }
 
         .timeline-container {
             position: relative;
             padding: 40px 0;
-            margin: 0 auto;
-            max-width: 100%;
         }
 
         .timeline-line {
@@ -83,21 +66,19 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
+            width: 3px;
             background: linear-gradient(180deg, 
-                #ffd700 0%, 
-                #ff8c42 20%, 
-                #ff6b6b 40%, 
-                #4ecdc4 60%, 
-                #667eea 80%, 
-                #764ba2 100%);
+                #c94b1f 0%, 
+                #e8651f 25%, 
+                #ff8c42 50%, 
+                #ffa64d 75%, 
+                #c94b1f 100%);
             transform: translateX(-50%);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
         }
 
         .timeline-event {
             position: relative;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
             display: flex;
             align-items: flex-start;
             min-height: 80px;
@@ -112,57 +93,56 @@
         }
 
         .event-content {
-            width: calc(50% - 50px);
-            background: linear-gradient(135deg, rgba(30, 40, 60, 0.95) 0%, rgba(40, 50, 70, 0.95) 100%);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            width: calc(50% - 60px);
+            background: #f8f9fa;
+            padding: 20px 24px;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
             position: relative;
         }
 
         .timeline-event:nth-child(odd) .event-content {
             margin-right: auto;
             text-align: right;
-            border-left: 4px solid #ffd700;
+            border-left: 4px solid #c94b1f;
         }
 
         .timeline-event:nth-child(even) .event-content {
             margin-left: auto;
             text-align: left;
-            border-right: 4px solid #ffd700;
+            border-right: 4px solid #c94b1f;
         }
 
         .timeline-event:nth-child(odd) .event-content::after {
             content: '';
             position: absolute;
-            right: -12px;
-            top: 20px;
+            right: -14px;
+            top: 22px;
             width: 0;
             height: 0;
             border-style: solid;
-            border-width: 10px 0 10px 12px;
-            border-color: transparent transparent transparent rgba(255, 215, 0, 0.8);
+            border-width: 10px 0 10px 14px;
+            border-color: transparent transparent transparent #e0e0e0;
         }
 
         .timeline-event:nth-child(even) .event-content::after {
             content: '';
             position: absolute;
-            left: -12px;
-            top: 20px;
+            left: -14px;
+            top: 22px;
             width: 0;
             height: 0;
             border-style: solid;
-            border-width: 10px 12px 10px 0;
-            border-color: transparent rgba(255, 215, 0, 0.8) transparent transparent;
+            border-width: 10px 14px 10px 0;
+            border-color: transparent #e0e0e0 transparent transparent;
         }
 
         .event-date {
             font-size: 16px;
-            font-weight: bold;
-            color: #ffd700;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #c94b1f;
+            margin-bottom: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -171,14 +151,14 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 10px;
-            color: #fff;
-            line-height: 1.3;
+            color: #1a1a1a;
+            line-height: 1.4;
         }
 
         .event-description {
             font-size: 14px;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.85);
+            color: #4a4a4a;
         }
 
         .timeline-marker {
@@ -189,82 +169,110 @@
         }
 
         .timeline-dot {
-            width: 24px;
-            height: 24px;
-            background: #ffd700;
-            border: 5px solid #0a1929;
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border: 4px solid #c94b1f;
             border-radius: 50%;
-            box-shadow: 0 0 0 5px rgba(255, 215, 0, 0.3),
-                        0 0 30px rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 0 4px rgba(201, 75, 31, 0.15);
         }
 
         .timeline-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #c94b1f 0%, #e8651f 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            border: 5px solid #0a1929;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.4),
-                        0 8px 30px rgba(102, 126, 234, 0.6);
+            font-size: 24px;
+            border: 4px solid #ffffff;
+            box-shadow: 0 0 0 3px #c94b1f,
+                        0 4px 12px rgba(0, 0, 0, 0.15);
             margin-top: -3px;
         }
 
         .epoch-label {
-            background: linear-gradient(135deg, rgba(255, 140, 66, 0.3), rgba(255, 107, 107, 0.3));
-            border: 2px solid rgba(255, 140, 66, 0.5);
-            padding: 15px 25px;
-            border-radius: 30px;
+            background: linear-gradient(135deg, #c94b1f, #e8651f);
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 25px;
             text-align: center;
-            margin: 60px auto 40px;
-            max-width: 80%;
-            font-weight: bold;
-            font-size: 16px;
-            color: #ffd700;
+            margin: 50px auto 35px;
+            max-width: 85%;
+            font-weight: 700;
+            font-size: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(201, 75, 31, 0.3);
         }
 
         .footer {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-top: 2px solid rgba(255, 215, 0, 0.2);
-            padding: 30px 20px;
-            margin-top: 60px;
+            background: #f8f9fa;
+            border-top: 3px solid #c94b1f;
+            padding: 30px 40px;
+            margin-top: 50px;
             text-align: center;
+            page-break-inside: avoid;
         }
 
         .footer h3 {
-            color: #ffd700;
+            color: #c94b1f;
             font-size: 18px;
             margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .sources {
-            font-size: 13px;
+            font-size: 12px;
             line-height: 1.8;
-            color: rgba(255, 255, 255, 0.7);
+            color: #4a4a4a;
         }
 
         .sources-list {
             list-style: none;
             padding: 0;
+            display: inline-block;
+            text-align: left;
         }
 
         .sources-list li {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .sources-list li::before {
             content: "• ";
             margin-right: 8px;
+            color: #c94b1f;
+            font-weight: bold;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #c94b1f, #e8651f);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(201, 75, 31, 0.4);
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        .print-button:hover {
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
             .timeline-line {
                 left: 30px;
             }
@@ -278,15 +286,15 @@
                 width: 100%;
                 text-align: left !important;
                 margin: 0 !important;
-                border-left: 4px solid #ffd700 !important;
+                border-left: 4px solid #c94b1f !important;
                 border-right: none !important;
             }
 
             .event-content::after {
-                left: -12px !important;
+                left: -14px !important;
                 right: auto !important;
-                border-width: 10px 12px 10px 0 !important;
-                border-color: transparent rgba(255, 215, 0, 0.8) transparent transparent !important;
+                border-width: 10px 14px 10px 0 !important;
+                border-color: transparent #e0e0e0 transparent transparent !important;
             }
 
             .timeline-marker {
@@ -295,29 +303,41 @@
 
             .epoch-label {
                 max-width: 90%;
-                font-size: 14px;
-                padding: 12px 20px;
+                font-size: 13px;
+                padding: 10px 20px;
             }
 
             .page-header h1 {
-                font-size: 18px;
+                font-size: 22px;
             }
 
             .page-header .subtitle {
-                font-size: 12px;
+                font-size: 13px;
             }
+
+            .print-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+
+        @page {
+            size: A3;
+            margin: 0;
         }
     </style>
 </head>
 <body>
+    <button class="print-button no-print" onclick="window.print()">📄 Als PDF speichern</button>
+
     <div class="page-header">
         <h1>Zeitstrahl zur Amerikanischen Geschichte</h1>
         <div class="subtitle">Von der Mayflower (1620) bis zum Ende des Zweiten Weltkriegs (1945)</div>
     </div>
 
     <div class="container">
-
-
         <div class="timeline-container">
             <div class="timeline-line"></div>
 
@@ -454,4 +474,4 @@
         </div>
     </div>
 </body>
-</html>
+    </html>
