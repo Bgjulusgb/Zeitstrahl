@@ -1,1 +1,457 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeitstrahl zur Amerikanischen Geschichte</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a1929 0%, #1a2332 50%, #2a3f5f 100%);
+            color: #fff;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #c94b1f 0%, #e8651f 100%);
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .page-header .subtitle {
+            font-size: 13px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 30px 15px;
+        }
+
+        .info-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 166, 77, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-box h2 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 8px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 40px 0;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, 
+                #ffd700 0%, 
+                #ff8c42 20%, 
+                #ff6b6b 40%, 
+                #4ecdc4 60%, 
+                #667eea 80%, 
+                #764ba2 100%);
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .timeline-event {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: flex-start;
+            min-height: 80px;
+        }
+
+        .timeline-event:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-event:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .event-content {
+            width: calc(50% - 50px);
+            background: linear-gradient(135deg, rgba(30, 40, 60, 0.95) 0%, rgba(40, 50, 70, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .timeline-event:nth-child(odd) .event-content {
+            margin-right: auto;
+            text-align: right;
+            border-left: 4px solid #ffd700;
+        }
+
+        .timeline-event:nth-child(even) .event-content {
+            margin-left: auto;
+            text-align: left;
+            border-right: 4px solid #ffd700;
+        }
+
+        .timeline-event:nth-child(odd) .event-content::after {
+            content: '';
+            position: absolute;
+            right: -12px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 0 10px 12px;
+            border-color: transparent transparent transparent rgba(255, 215, 0, 0.8);
+        }
+
+        .timeline-event:nth-child(even) .event-content::after {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 12px 10px 0;
+            border-color: transparent rgba(255, 215, 0, 0.8) transparent transparent;
+        }
+
+        .event-date {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .event-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .event-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border: 5px solid #0a1929;
+            border-radius: 50%;
+            box-shadow: 0 0 0 5px rgba(255, 215, 0, 0.3),
+                        0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        .timeline-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            border: 5px solid #0a1929;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.4),
+                        0 8px 30px rgba(102, 126, 234, 0.6);
+            margin-top: -3px;
+        }
+
+        .epoch-label {
+            background: linear-gradient(135deg, rgba(255, 140, 66, 0.3), rgba(255, 107, 107, 0.3));
+            border: 2px solid rgba(255, 140, 66, 0.5);
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-align: center;
+            margin: 60px auto 40px;
+            max-width: 80%;
+            font-weight: bold;
+            font-size: 16px;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+            padding: 30px 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .footer h3 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .sources {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .sources-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sources-list li {
+            margin-bottom: 8px;
+        }
+
+        .sources-list li::before {
+            content: "• ";
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-event {
+                flex-direction: row !important;
+                padding-left: 70px;
+            }
+
+            .event-content {
+                width: 100%;
+                text-align: left !important;
+                margin: 0 !important;
+                border-left: 4px solid #ffd700 !important;
+                border-right: none !important;
+            }
+
+            .event-content::after {
+                left: -12px !important;
+                right: auto !important;
+                border-width: 10px 12px 10px 0 !important;
+                border-color: transparent rgba(255, 215, 0, 0.8) transparent transparent !important;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .epoch-label {
+                max-width: 90%;
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+
+            .page-header h1 {
+                font-size: 18px;
+            }
+
+            .page-header .subtitle {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>Zeitstrahl zur Amerikanischen Geschichte</h1>
+        <div class="subtitle">Von der Mayflower (1620) bis zum Ende des Zweiten Weltkriegs (1945)</div>
+    </div>
+
+    <div class="container">
+
+
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="epoch-label">🏛️ Kolonialzeit</div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">🚢</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">21. November 1620</div>
+                    <div class="event-title">Ankunft der Mayflower am Cape Cod</div>
+                    <div class="event-description">Die Mayflower erreicht nach 66 Tagen Seefahrt Cape Cod mit 102 Passagieren. Am 11. November (nach julianischem Kalender) wird der Mayflower Compact unterzeichnet, ein wichtiges Gründungsdokument.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">16. Dezember 1773</div>
+                    <div class="event-title">Boston Tea Party</div>
+                    <div class="event-description">Als Protest gegen die britische Teepolitik verkleiden sich Kolonisten als Indianer und werfen 342 Teekisten im Wert von 10.000 Pfund in den Hafen von Boston. Dies verschärft den Konflikt mit Großbritannien erheblich.</div>
+                </div>
+            </div>
+
+            <div class="epoch-label">⚔️ Amerikanische Revolution und Unabhängigkeit</div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">📜</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">4. Juli 1776</div>
+                    <div class="event-title">Unabhängigkeitserklärung</div>
+                    <div class="event-description">Der Kontinentalkongress verabschiedet die Declaration of Independence, verfasst hauptsächlich von Thomas Jefferson. Die 13 Kolonien erklären ihre Unabhängigkeit von Großbritannien und begründen dies mit unveräußerlichen Rechten.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">19. Oktober 1781</div>
+                    <div class="event-title">Kapitulation bei Yorktown</div>
+                    <div class="event-description">General Cornwallis kapituliert mit 8.000 britischen Soldaten bei Yorktown, Virginia. Diese entscheidende Niederlage der Briten beendet faktisch den Unabhängigkeitskrieg, obwohl der Frieden erst 1783 geschlossen wird.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">📖</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">17. September 1787</div>
+                    <div class="event-title">Verabschiedung der US-Verfassung</div>
+                    <div class="event-description">Die Verfassung der Vereinigten Staaten wird in Philadelphia unterzeichnet. Sie schafft ein föderales System mit Gewaltenteilung und ist bis heute die älteste noch gültige schriftliche Verfassung der Welt.</div>
+                </div>
+            </div>
+
+            <div class="epoch-label">🌍 Expansion und Bürgerkrieg (19. Jahrhundert)</div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">30. April 1803</div>
+                    <div class="event-title">Louisiana Purchase</div>
+                    <div class="event-description">Die USA kaufen Louisiana von Frankreich für 15 Millionen Dollar. Dieses Territorium von über 2 Millionen km² verdoppelt die Fläche der USA nahezu und ermöglicht die Expansion nach Westen.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">💥</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">12. April 1861</div>
+                    <div class="event-title">Beginn des Amerikanischen Bürgerkriegs</div>
+                    <div class="event-description">Mit dem Angriff der Konföderierten auf Fort Sumter beginnt der blutigste Konflikt in der amerikanischen Geschichte. Der Krieg zwischen Nord- und Südstaaten kostet über 600.000 Menschen das Leben.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">1. Januar 1863</div>
+                    <div class="event-title">Emanzipationsproklamation</div>
+                    <div class="event-description">Präsident Abraham Lincoln erklärt alle Sklaven in den rebellischen Südstaaten für frei. Dies gibt dem Bürgerkrieg eine moralische Dimension und führt letztlich zur Abschaffung der Sklaverei in den gesamten USA.</div>
+                </div>
+            </div>
+
+            <div class="epoch-label">🌐 Weltmacht USA (20. Jahrhundert)</div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">🌍</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">6. April 1917</div>
+                    <div class="event-title">Eintritt in den Ersten Weltkrieg</div>
+                    <div class="event-description">Die USA treten nach Jahren der Neutralität auf Seiten der Alliierten in den Ersten Weltkrieg ein. Die amerikanische Intervention trägt entscheidend zum Sieg der Alliierten 1918 bei.</div>
+                </div>
+            </div>
+
+            <div class="timeline-event">
+                <div class="timeline-marker">
+                    <div class="timeline-icon">🕊️</div>
+                </div>
+                <div class="event-content">
+                    <div class="event-date">2. September 1945</div>
+                    <div class="event-title">Ende des Zweiten Weltkriegs</div>
+                    <div class="event-description">Nach den Atombombenabwürfen auf Hiroshima (6. August) und Nagasaki (9. August) kapituliert Japan bedingungslos. Mit der Unterzeichnung an Bord der USS Missouri endet der Zweite Weltkrieg offiziell.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>Quellenangaben</h3>
+            <div class="sources">
+                <ul class="sources-list">
+                    <li>National Archives (archives.gov) - Founding Documents</li>
+                    <li>Library of Congress - American Memory Project</li>
+                    <li>Plimoth Patuxet Museums - Mayflower History</li>
+                    <li>Britannica Encyclopedia - American History</li>
+                    <li>History.com - This Day in History</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
